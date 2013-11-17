@@ -1,0 +1,2 @@
+Zaprogramować symulator do algorytmów na grafach i na nim kolorowanie drzew.
+NEW Termin: 15 listopada, można robić w grupach 2-3 osobowych. Symulatora nie trzeba programować od zera, można wykorzystać narzędzia, jakie uda Wam się znaleźć.
