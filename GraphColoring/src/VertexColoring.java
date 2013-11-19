@@ -23,6 +23,25 @@ public class VertexColoring extends SynchronousAlgorithm {
 		return new VertexColoring();
 	}
 
+	public static int calculateColour(int myColour, int parentColour)
+	{
+		int z = (myColour ^ parentColour);
+		int l =	(int)Math.log(Math.max(myColour, parentColour))+1;
+		int i = 0;
+		for (; i < l; i++)
+		{
+			if ((z & (1 << i)) > 0)
+			{
+				System.out.println("index " + i);
+				break;
+			}
+		}
+		int result = i*2;
+		if ((myColour & (1 << i)) > 0)
+			result++;
+		return result;
+	}
+
 	@Override
 	public void init() {
 
@@ -58,12 +77,12 @@ public class VertexColoring extends SynchronousAlgorithm {
 					Message messageFromFather = receive(dr);
 					int fathers_color = Integer.parseInt(messageFromFather
 							.toString());
-					// We need to make here 7-9 lines of algorithm 6 color, some
-					// bitwise operations
-					if (fathers_color == 0) {
-						fathers_color = 1;
-					}
-					label = fathers_color;
+					// // We need to make here 7-9 lines of algorithm 6 color, some
+					// // bitwise operations
+					// if (fathers_color == 0) {
+					// 	fathers_color = 1;
+					// }
+					label = calculateColour(label, fathers_color);
 					putProperty("label", "" + changeIDIntoColor(label));
 				}
 			}
@@ -73,13 +92,13 @@ public class VertexColoring extends SynchronousAlgorithm {
 			sixColorRoundNumber++;
 		}
 		// six2tree procedure
-		while (six2TreePending && six2TreeRoundNumber > 2) {
-			shiftDown();
-			nextPulse();
-			paintToFathersColor();
-			six2TreeRoundNumber--;
-			nextPulse();
-		}
+		// while (six2TreePending && six2TreeRoundNumber > 2) {
+		// 	shiftDown();
+		// 	nextPulse();
+		// 	paintToFathersColor();
+		// 	six2TreeRoundNumber--;
+		// 	nextPulse();
+		// }
 	}
 
 	private void shiftDown() {
