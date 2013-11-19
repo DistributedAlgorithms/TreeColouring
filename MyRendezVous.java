@@ -36,7 +36,7 @@ public class MyRendezVous extends Algorithm
 			// Mark an edge and send a "Hello" message
 		 	if (rendezVousAccepted == true) {
 				 setDoorState(new MarkedState(true), neighborDoor); 	
-	 			 sendTo(neighborDoor, 	new StringMessage("Hello")); 
+	 			 sendTo(neighborDoor, new StringMessage("Hello")); 
 				 receiveFrom(neighborDoor);
 				 setDoorState(new MarkedState(false), neighborDoor);
 		 	}
