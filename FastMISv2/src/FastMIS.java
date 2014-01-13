@@ -102,7 +102,7 @@ public class FastMIS extends SynchronousAlgorithm {
 		if (anyMsg()) {
 			hasFinished = true;
 			isInMis = false;
-			putProperty("label", "B");
+			putProperty("label", "B"); 
 		}
 	}
 
