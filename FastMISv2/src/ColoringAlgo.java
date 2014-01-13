@@ -17,16 +17,25 @@ public class ColoringAlgo {
       }
       return instance;
    }
+   /*informuje o dołączeniu do MISa,
+    zmniejsza liczbę pozostałych w rundzie węzłów
+   */
    public synchronized void joinedMis()
    {
       numberOfMisNodes++;
       finishedRound();
    }
+   // informuje o zakonczeniu rundy
    public synchronized void finishedRound()
    {
       if (numberOfNodes > 0)
          numberOfNodes--;
    }
+   /*
+      rozpoczyna runde, wolany jest przez
+      wszystkie wezly w danej rundzie,
+      inkrementujemy licznik rundy tylko raze
+   */
    public synchronized void startRound()
    {
       if (numberOfNodes != initialNumberOfNodes - numberOfMisNodes)

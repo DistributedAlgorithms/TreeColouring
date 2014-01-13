@@ -41,6 +41,7 @@ public class FastMIS extends SynchronousAlgorithm {
 		}
 	}		
 	
+	//czyscimy zmienne i wywolujemy MISa
 	private void singleRound()
 	{
 		hasFinished = false;
@@ -52,6 +53,7 @@ public class FastMIS extends SynchronousAlgorithm {
 			singlePhase();
 		} 
 	}
+	//wywolujemy tyle next pulsow co w singleRound
 	private void singlePhasePulse()
 	{
 		nextPulse();
