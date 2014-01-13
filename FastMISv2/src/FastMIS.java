@@ -31,12 +31,15 @@ public class FastMIS extends SynchronousAlgorithm {
 				coloringAlgo.finishedRound();
 			//czekamy az inne skoncza
 			//liczba next pulsow w 1 rundzie
+			nextPulse();
 			if (!isInMis)
 			{
+				System.out.println("siema tu " + getId() + " czekam na koniec rundy");
 				while(!coloringAlgo.didFinishRound()){
 					singlePhasePulse();
 				}
 				nextPulse();
+				System.out.println("siema tu " + getId() + " startuje do kolejnej rundy " + getColor());
 			}
 		}
 	}		

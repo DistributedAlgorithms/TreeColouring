@@ -34,7 +34,7 @@ public class ColoringAlgo {
    /*
       rozpoczyna runde, wolany jest przez
       wszystkie wezly w danej rundzie,
-      inkrementujemy licznik rundy tylko raze
+      inkrementujemy licznik rundy tylko raz
    */
    public synchronized void startRound()
    {
