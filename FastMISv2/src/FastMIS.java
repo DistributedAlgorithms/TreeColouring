@@ -8,9 +8,10 @@ import visidia.simulation.process.messages.StringMessage;
 public class FastMIS extends SynchronousAlgorithm {
 
 	private static final long serialVersionUID = 1L;
-	private Random randGenerator = new Random();
+	private Random  randGenerator = new Random();
 	private boolean hasFinished;
-
+	private boolean isInMis;
+	private ColoringAlgo coloringAlgo;
 	@Override
 	public Object clone() {
 		return new FastMIS();
@@ -18,14 +19,51 @@ public class FastMIS extends SynchronousAlgorithm {
 
 	@Override
 	public void init() {
-				hasFinished = false;
-				putProperty("label", "Q");
-				while (!hasFinished) {
-					singlePhase();
+		coloringAlgo = ColoringAlgo.getInstance(getNetSize());
+		while (!isInMis)
+		{
+			//liczymy MISA
+			singleRound();
+			//informujemy singleton
+			if (isInMis)
+				coloringAlgo.joinedMis();
+			else
+				coloringAlgo.finishedRound();
+			//czekamy az inne skoncza
+			//liczba next pulsow w 1 rundzie
+			if (!isInMis)
+			{
+				while(!coloringAlgo.didFinishRound()){
+					singlePhasePulse();
 				}
+				nextPulse();
+			}
+		}
+	}		
+	
+	private void singleRound()
+	{
+		hasFinished = false;
+		isInMis = false;
+		coloringAlgo.startRound();
+		putProperty("label", "Q");
+			
+		while (!hasFinished) {
+			singlePhase();
+		} 
+	}
+	private void singlePhasePulse()
+	{
+		nextPulse();
+		nextPulse();
+		nextPulse();
+		nextPulse();
+		nextPulse();
 	}
 
 	private void singlePhase() {
+		System.out.println("single phase " + getColor());
+
 		int myDegree = getDegree();
 		int randomValue = randGenerator.nextInt(2 * myDegree + 1);
 		boolean canJoinMIS = randomValue == 0;
@@ -50,16 +88,25 @@ public class FastMIS extends SynchronousAlgorithm {
 		//Dodaje sie i blokuje sasiadow w tej rundzie
 		if (canJoinMIS) {
 			sendAll(new StringMessage("block"));
-			putProperty("label", "A");
+			putProperty("label", getColor());
 			hasFinished = true;
+			isInMis = true;
 		}
 		nextPulse();
 		//Jestem sasiadem, zostaje zablokowany
 		if (anyMsg()) {
 			hasFinished = true;
+			isInMis = false;
 			putProperty("label", "B");
 		}
 	}
+
+	private String getColor()
+	{
+		int misColor = coloringAlgo.getRoundNumber() + 67;
+		return Character.toString((char)misColor);
+	}
+
 	/**
 	 * W razie konfliktu (dwa sasiadujace wierzcholki chca sie dodac do MIS)
 	 * metoda porownuje liczbe sasiadow i ID jesli liczba sasiadow jest rowna
